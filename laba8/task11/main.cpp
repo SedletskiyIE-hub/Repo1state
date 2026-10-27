@@ -1,0 +1,113 @@
+//Дан одномерный массив из N (N=50) случайных целых чисел в
+//диапазоне от 10 до 85 включительно. Вывести в порядке возрастания
+//те числа из данного диапазона, которые ни разу не встречаются в
+//массиве. Создать функцию для поиска элемента в массиве.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+bool searchNumber(int arr[], int size, int number);
+
+void test(int* n);
+
+void printIlya(int count = 10){
+
+    if (count != 0){
+
+        printf("Hello Ilya!\n");
+        printIlya(count - 1);
+
+    }
+    
+    return;
+
+}
+
+int main(){
+
+    const int MAX_N = 50;
+
+    int N;
+    int start_of_the_arr;
+    int end_of_the_arr;
+
+    printf("Введите количество элементов массива (1-%d): ", MAX_N);
+    scanf("%d", &N);
+
+    while (N < 1 || N > MAX_N)
+    {
+        printf("Ошибка! Количество элементов должно быть "
+               "от 1 до %d.\n", MAX_N);
+
+        printf("Введите количество элементов еще раз: ");
+        scanf("%d", &N);
+    }
+
+    int arr[MAX_N];
+
+    srand(time(0));
+
+    printf("Введите начало диапазона: ");
+    scanf("%d", &start_of_the_arr);
+
+    printf("Введите конец диапазона: ");
+    scanf("%d", &end_of_the_arr);
+
+    while (end_of_the_arr < start_of_the_arr)
+    {
+        printf("Ошибка! Конец диапазона должен быть "
+               "больше или равен началу!\n");
+
+        printf("Введите конец диапазона еще раз: ");
+        scanf("%d", &end_of_the_arr);
+    }
+
+    int rangeSize = end_of_the_arr - start_of_the_arr + 1;
+
+    for (int i = 0; i < N; i++)
+    {
+        arr[i] = rand() % rangeSize + start_of_the_arr;
+    }
+
+    printf("\nИсходный массив:\n");
+
+    for (int i = 0; i < N; i++)
+    {
+        printf("%-4d", arr[i]);
+    }
+
+    printf("\n");
+
+    printf("Числа не встречающиеся в массиве:\n");
+
+    for (int number = start_of_the_arr;
+         number <= end_of_the_arr;
+         number++)
+    {
+
+        if (!searchNumber(arr, N, number))
+        {
+            printf("%-4d ", number);
+        }
+    }
+
+    printf("\n");
+
+    printIlya();
+
+    return 0;
+}
+
+bool searchNumber(int arr[], int size, int number)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == number)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
